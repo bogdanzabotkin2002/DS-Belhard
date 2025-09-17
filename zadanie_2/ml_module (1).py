@@ -22,17 +22,27 @@ def load_data(file_path, csv=True, parquet=False, json=False, excel=False):
         return pd.read_excel(file_path)
     except FileNotFoundError:
       print("Файл не найден или неправильный формат расширения")
+    except Exception as e:
+        print(f"Ошибка загрузки: {e}")
+        return None
 
-def diagram(df, col_x: str, col_y: str, heatmap=False):
+def explore_data(df: pd.DataFrame):
+    """Исследование данных."""
+    print("Информация о данных:")
+    print(f"Размер: {df.shape}")
+    print(f"Колонки: {list(df.columns)}")
+    print("\nПропущенные значения:")
+    print(df.isnull().sum())
+
+def diagram(df, col_x: str, col_y: str):
   """col_x: название столбца из датафрэйма по оси х
      col_y: название столбца из датафрэйма по оси у
      heatmap: тепловая матрица корреляции по дефолту False
   """
-  sns.scatterplot(x = df[col_x], y = df[col_y])
-  if heatmap == True:
-    return sns.heatmap(df.corr()), sns.scatterplot(x = df[col_x], y = df[col_y])
-  else:
-    return sns.scatterplot(x = df[col_x], y = df[col_y])
+  return sns.scatterplot(x = df[col_x], y = df[col_y])
+
+def heatmap(df: pd.DataFrame)
+    return sns.heatmap(df.corr())
 
 def preprocessing(df, target_column):
   """target_column: целевой столбец
@@ -84,3 +94,4 @@ def visualization(y_test, y_pred):
     plt.scatter(range(6), y_test, color='red')
     return plt.show()
     
+
